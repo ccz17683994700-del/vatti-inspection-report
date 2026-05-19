@@ -5,351 +5,91 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>华帝厨房电器安检报告</title>
 <style>
-/* ===== CSS Variables ===== */
 :root {
-  --red: #C41E3A;
-  --red-light: #FFF5F5;
-  --green: #2E7D32;
-  --green-light: #E8F5E9;
-  --orange: #E67E22;
-  --orange-light: #FFF8F0;
-  --dark: #1a1a1a;
-  --gray: #666;
-  --gray-light: #999;
-  --bg: #f5f5f5;
-  --card: #fff;
-  --border: #e8e8e8;
-  --radius: 10px;
-  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+  --red: #C41E3A; --red-light: #FFF5F5; --green: #2E7D32; --green-light: #E8F5E9;
+  --orange: #E67E22; --orange-light: #FFF8F0; --dark: #1a1a1a; --gray: #666;
+  --gray-light: #999; --bg: #f5f5f5; --card: #fff; --border: #e8e8e8;
+  --radius: 10px; --shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
-  background: var(--bg);
-  color: var(--dark);
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* ===== Header ===== */
-.header {
-  background: linear-gradient(135deg, #C41E3A 0%, #a01830 100%);
-  color: #fff;
-  padding: 20px 16px 16px;
-  text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.header .brand { font-size: 20px; font-weight: 700; letter-spacing: 2px; }
-.header .sub { font-size: 11px; opacity: 0.75; margin-top: 2px; }
-
-/* ===== Container ===== */
-.container { max-width: 600px; margin: 0 auto; padding: 0 12px 40px; }
-
-/* ===== Cards ===== */
-.card {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 16px;
-  margin-top: 12px;
-  box-shadow: var(--shadow);
-}
-.card-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--dark);
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--red);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.card-title .icon { font-size: 18px; }
-
-/* ===== Form ===== */
-.form-group { margin-bottom: 10px; }
-.form-group label {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--gray);
-  margin-bottom: 4px;
-}
-.form-group input, .form-group select, .form-group textarea {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: inherit;
-  transition: border-color 0.2s;
-  background: #fafafa;
-}
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-  outline: none;
-  border-color: var(--red);
-  background: #fff;
-}
-.form-row { display: flex; gap: 8px; }
-.form-row .form-group { flex:1; }
-
-/* ===== Check Items ===== */
-.check-item {
-  display: flex;
-  align-items: flex-start;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--border);
-  gap: 8px;
-}
-.check-item:last-child { border-bottom: none; }
-.check-num {
-  width: 24px; height: 24px;
-  border-radius: 50%;
-  background: #f0f0f0;
-  color: var(--gray);
-  font-size: 11px;
-  font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.check-info { flex: 1; min-width: 0; }
-.check-name { font-size: 13px; font-weight: 600; color: var(--dark); }
-.check-desc { font-size: 11px; color: var(--gray-light); margin-top: 1px; }
-.check-result { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
-.check-result label {
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: 14px;
-  cursor: pointer;
-  border: 1.5px solid var(--border);
-  background: #fff;
-  transition: all 0.2s;
-  white-space: nowrap;
-}
-.check-result input { display: none; }
-.check-result input:checked + label.pass { background: var(--green-light); border-color: var(--green); color: var(--green); font-weight: 600; }
-.check-result input:checked + label.fail { background: #FFEBEE; border-color: var(--red); color: var(--red); font-weight: 600; }
-.check-result input:checked + label.skip { background: #f5f5f5; border-color: #ccc; color: #999; }
-
-.check-note {
-  width: 100%;
-  margin-top: 4px;
-  padding: 6px 10px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 12px;
-  display: none;
-}
-.check-item.has-issue .check-note { display: block; }
-
-/* ===== Buttons ===== */
-.btn {
-  display: block;
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: inherit;
-  margin-top: 16px;
-}
-.btn-primary { background: var(--red); color: #fff; }
-.btn-primary:active { background: #a01830; transform: scale(0.98); }
-.btn-outline {
-  background: #fff;
-  color: var(--red);
-  border: 2px solid var(--red);
-  margin-top: 8px;
-}
-
-/* ===== Report View ===== */
-.report-view { display: none; }
-.report-view.active { display: block; }
-
-.result-banner {
-  text-align: center;
-  padding: 24px 16px;
-  border-radius: var(--radius);
-  margin-top: 12px;
-  color: #fff;
-}
-.result-banner.safe { background: linear-gradient(135deg, #2E7D32, #43A047); }
-.result-banner.warning { background: linear-gradient(135deg, #E67E22, #F5A623); }
-.result-banner.danger { background: linear-gradient(135deg, #C41E3A, #E53935); }
-.result-banner .big-icon { font-size: 48px; margin-bottom: 8px; }
-.result-banner .big-title { font-size: 20px; font-weight: 700; }
-.result-banner .big-sub { font-size: 13px; opacity: 0.85; margin-top: 4px; }
-
-.summary-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 12px;
-}
-.summary-item {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 12px;
-  text-align: center;
-  box-shadow: var(--shadow);
-}
-.summary-item .s-label { font-size: 11px; color: var(--gray-light); }
-.summary-item .s-value { font-size: 16px; font-weight: 700; margin-top: 4px; }
-.summary-item .s-value.red { color: var(--red); }
-.summary-item .s-value.green { color: var(--green); }
-.summary-item .s-value.orange { color: var(--orange); }
-
-.report-section { margin-top: 12px; }
-.report-section h3 {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--dark);
-  margin-bottom: 8px;
-  padding-left: 10px;
-  border-left: 3px solid var(--red);
-}
-
-.report-check-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  margin-bottom: 4px;
-  border-radius: 8px;
-  gap: 8px;
-  font-size: 13px;
-  background: #fafafa;
-}
-.report-check-item.issue {
-  background: #FFEBEE;
-  border: 1px solid #FFCDD2;
-}
-.report-check-item .status-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.report-check-item .status-dot.pass { background: var(--green); }
-.report-check-item .status-dot.fail { background: var(--red); }
-.report-check-item .status-dot.skip { background: #ccc; }
-.report-check-item .item-name { flex: 1; }
-.report-check-item .item-badge {
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-.item-badge.pass { background: var(--green-light); color: var(--green); }
-.item-badge.fail { background: #FFEBEE; color: var(--red); }
-.item-badge.skip { background: #f0f0f0; color: var(--gray-light); }
-
-.suggestion-card {
-  background: #FFF8F0;
-  border: 1px solid #FFE0B2;
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 8px;
-}
-.suggestion-card .risk-tag {
-  display: inline-block;
-  font-size: 10px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-.risk-tag.high { background: #FFEBEE; color: var(--red); }
-.risk-tag.mid { background: #FFF8F0; color: var(--orange); }
-.risk-tag.low { background: #E8F5E9; color: var(--green); }
-.suggestion-card .sg-problem { font-size: 13px; font-weight: 600; color: var(--dark); }
-.suggestion-card .sg-fix { font-size: 12px; color: var(--gray); margin-top: 4px; }
-.suggestion-card .sg-product { font-size: 11px; color: var(--red); margin-top: 2px; }
-
-.store-info {
-  background: var(--card);
-  border-radius: var(--radius);
-  padding: 14px;
-  margin-top: 12px;
-  box-shadow: var(--shadow);
-  font-size: 12px;
-  color: var(--gray);
-}
-.store-info .si-row { display: flex; margin-bottom: 2px; }
-.store-info .si-label { width: 60px; flex-shrink: 0; color: var(--gray-light); }
-
-/* ===== Toast ===== */
-.toast {
-  position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
-  background: #333; color: #fff; padding: 12px 24px; border-radius: 25px;
-  font-size: 14px; font-weight: 600; z-index: 9999;
-  opacity: 0; transition: opacity 0.3s;
-  pointer-events: none;
-}
-.toast.show { opacity: 1; }
-
-/* ===== Mode Toggle ===== */
-.mode-switch {
-  display: flex;
-  gap: 4px;
-  background: rgba(255,255,255,0.15);
-  border-radius: 20px;
-  padding: 3px;
-  max-width: 260px;
-  margin: 12px auto 0;
-}
-.mode-switch button {
-  flex: 1;
-  padding: 6px 14px;
-  border: none;
-  border-radius: 18px;
-  font-size: 12px;
-  cursor: pointer;
-  background: transparent;
-  color: rgba(255,255,255,0.7);
-  font-family: inherit;
-  font-weight: 600;
-  transition: all 0.2s;
-}
-.mode-switch button.active { background: #fff; color: var(--red); }
-
-/* ===== Loading ===== */
-.loading {
-  text-align: center; padding: 60px 20px; color: var(--gray);
-}
-.loading .spinner {
-  width: 32px; height: 32px;
-  border: 3px solid var(--border);
-  border-top-color: var(--red);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin: 0 auto 12px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ===== Empty state ===== */
-.empty-state {
-  text-align: center; padding: 40px 20px;
-  color: var(--gray-light);
-}
-.empty-state .empty-icon { font-size: 48px; }
-
-/* Responsive */
-@media (max-width: 400px) {
-  .check-result { gap: 4px; }
-  .check-result label { padding: 3px 8px; font-size: 10px; }
-  .summary-grid { grid-template-columns: 1fr 1fr; }
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue',sans-serif;background:var(--bg);color:var(--dark);line-height:1.5;-webkit-font-smoothing:antialiased}
+.header{background:linear-gradient(135deg,#C41E3A 0%,#a01830 100%);color:#fff;padding:20px 16px 16px;text-align:center;position:sticky;top:0;z-index:100}
+.header .brand{font-size:20px;font-weight:700;letter-spacing:2px}
+.header .sub{font-size:11px;opacity:0.75;margin-top:2px}
+.container{max-width:600px;margin:0 auto;padding:0 12px 40px}
+.card{background:var(--card);border-radius:var(--radius);padding:16px;margin-top:12px;box-shadow:var(--shadow)}
+.card-title{font-size:15px;font-weight:700;color:var(--dark);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--red);display:flex;align-items:center;gap:6px}
+.card-title .icon{font-size:18px}
+.form-group{margin-bottom:10px}
+.form-group label{display:block;font-size:12px;font-weight:600;color:var(--gray);margin-bottom:4px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;transition:border-color 0.2s;background:#fafafa}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--red);background:#fff}
+.form-row{display:flex;gap:8px}
+.form-row .form-group{flex:1}
+.check-item{display:flex;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border);gap:8px}
+.check-item:last-child{border-bottom:none}
+.check-num{width:24px;height:24px;border-radius:50%;background:#f0f0f0;color:var(--gray);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.check-info{flex:1;min-width:0}
+.check-name{font-size:13px;font-weight:600;color:var(--dark)}
+.check-desc{font-size:11px;color:var(--gray-light);margin-top:1px}
+.check-result{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+.check-result label{font-size:11px;padding:4px 10px;border-radius:14px;cursor:pointer;border:1.5px solid var(--border);background:#fff;transition:all 0.2s;white-space:nowrap}
+.check-result input{display:none}
+.check-result input:checked+label.pass{background:var(--green-light);border-color:var(--green);color:var(--green);font-weight:600}
+.check-result input:checked+label.fail{background:#FFEBEE;border-color:var(--red);color:var(--red);font-weight:600}
+.check-note{width:100%;margin-top:4px;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;display:none}
+.check-item.has-issue .check-note{display:block}
+.btn{display:block;width:100%;padding:14px;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:inherit;margin-top:16px}
+.btn-primary{background:var(--red);color:#fff}
+.btn-primary:active{background:#a01830;transform:scale(0.98)}
+.btn-outline{background:#fff;color:var(--red);border:2px solid var(--red);margin-top:8px}
+.report-view{display:none}
+.result-banner{text-align:center;padding:24px 16px;border-radius:var(--radius);margin-top:12px;color:#fff}
+.result-banner.safe{background:linear-gradient(135deg,#2E7D32,#43A047)}
+.result-banner.warning{background:linear-gradient(135deg,#E67E22,#F5A623)}
+.result-banner.danger{background:linear-gradient(135deg,#C41E3A,#E53935)}
+.result-banner .big-icon{font-size:48px;margin-bottom:8px}
+.result-banner .big-title{font-size:20px;font-weight:700}
+.result-banner .big-sub{font-size:13px;opacity:0.85;margin-top:4px}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.summary-item{background:var(--card);border-radius:var(--radius);padding:12px;text-align:center;box-shadow:var(--shadow)}
+.summary-item .s-label{font-size:11px;color:var(--gray-light)}
+.summary-item .s-value{font-size:16px;font-weight:700;margin-top:4px}
+.summary-item .s-value.red{color:var(--red)}
+.summary-item .s-value.green{color:var(--green)}
+.summary-item .s-value.orange{color:var(--orange)}
+.report-section{margin-top:12px}
+.report-section h3{font-size:14px;font-weight:700;color:var(--dark);margin-bottom:8px;padding-left:10px;border-left:3px solid var(--red)}
+.report-check-item{display:flex;align-items:center;padding:8px 12px;margin-bottom:4px;border-radius:8px;gap:8px;font-size:13px;background:#fafafa}
+.report-check-item.issue{background:#FFEBEE;border:1px solid #FFCDD2}
+.report-check-item .status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.report-check-item .status-dot.pass{background:var(--green)}
+.report-check-item .status-dot.fail{background:var(--red)}
+.report-check-item .item-name{flex:1}
+.report-check-item .item-badge{font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;flex-shrink:0}
+.item-badge.pass{background:var(--green-light);color:var(--green)}
+.item-badge.fail{background:#FFEBEE;color:var(--red)}
+.suggestion-card{background:#FFF8F0;border:1px solid #FFE0B2;border-radius:8px;padding:12px;margin-bottom:8px}
+.suggestion-card .risk-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:4px;font-weight:700;margin-bottom:4px}
+.risk-tag.high{background:#FFEBEE;color:var(--red)}
+.risk-tag.mid{background:#FFF8F0;color:var(--orange)}
+.risk-tag.low{background:#E8F5E9;color:var(--green)}
+.suggestion-card .sg-problem{font-size:13px;font-weight:600;color:var(--dark)}
+.suggestion-card .sg-fix{font-size:12px;color:var(--gray);margin-top:4px}
+.suggestion-card .sg-product{font-size:11px;color:var(--red);margin-top:2px}
+.store-info{background:var(--card);border-radius:var(--radius);padding:14px;margin-top:12px;box-shadow:var(--shadow);font-size:12px;color:var(--gray)}
+.store-info .si-row{display:flex;margin-bottom:2px}
+.store-info .si-label{width:60px;flex-shrink:0;color:var(--gray-light)}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:12px 24px;border-radius:25px;font-size:14px;font-weight:600;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none}
+.toast.show{opacity:1}
+.mode-switch{display:flex;gap:4px;background:rgba(255,255,255,0.15);border-radius:20px;padding:3px;max-width:260px;margin:12px auto 0}
+.mode-switch button{flex:1;padding:6px 14px;border:none;border-radius:18px;font-size:12px;cursor:pointer;background:transparent;color:rgba(255,255,255,0.7);font-family:inherit;font-weight:600;transition:all 0.2s}
+.mode-switch button.active{background:#fff;color:var(--red)}
+@media(max-width:400px){.check-result{gap:4px}.check-result label{padding:3px 8px;font-size:10px}.summary-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 
-<!-- ===== HEADER ===== -->
 <div class="header" id="header">
   <div class="brand">华帝 VATTI</div>
   <div class="sub" id="headerSub">厨房电器上门安检</div>
@@ -359,131 +99,50 @@ body {
   </div>
 </div>
 
-<!-- ===== TOAST ===== -->
 <div class="toast" id="toast"></div>
-
 <div class="container">
 
-<!-- ============================================ -->
-<!-- EDIT MODE (门店填写) -->
-<!-- ============================================ -->
 <div id="editMode">
-
-  <!-- 客户信息 -->
-  <div class="card">
-    <div class="card-title"><span class="icon">👤</span> 客户基本信息</div>
-    <div class="form-row">
-      <div class="form-group"><label>客户姓名 *</label><input id="cName" placeholder="先生/女士"></div>
-      <div class="form-group"><label>联系电话 *</label><input id="cPhone" type="tel" placeholder="手机号"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>预约日期</label><input id="cDate" type="date"></div>
-      <div class="form-group"><label>所在城市</label><input id="cCity" placeholder="如：广州"></div>
-    </div>
+  <div class="card"><div class="card-title"><span class="icon">👤</span> 客户基本信息</div>
+    <div class="form-row"><div class="form-group"><label>客户姓名 *</label><input id="cName" placeholder="先生/女士"></div><div class="form-group"><label>联系电话 *</label><input id="cPhone" type="tel" placeholder="手机号"></div></div>
+    <div class="form-row"><div class="form-group"><label>预约日期</label><input id="cDate" type="date"></div><div class="form-group"><label>所在城市</label><input id="cCity" placeholder="如：广州"></div></div>
     <div class="form-group"><label>服务地址</label><input id="cAddr" placeholder="小区/楼栋/房号"></div>
-    <div class="form-row">
-      <div class="form-group"><label>气源类型</label><select id="cGas"><option value="">请选择</option><option>天然气</option><option>液化气</option><option>管道煤气</option></select></div>
-      <div class="form-group"><label>用户来源</label><select id="cSource"><option value="">请选择</option><option>主动预约</option><option>门店邀约</option><option>老客回访</option><option>其他</option></select></div>
-    </div>
+    <div class="form-row"><div class="form-group"><label>气源类型</label><select id="cGas"><option value="">请选择</option><option>天然气</option><option>液化气</option><option>管道煤气</option></select></div><div class="form-group"><label>用户来源</label><select id="cSource"><option value="">请选择</option><option>主动预约</option><option>门店邀约</option><option>老客回访</option><option>其他</option></select></div></div>
   </div>
 
-  <!-- 设备清单 -->
-  <div class="card">
-    <div class="card-title"><span class="icon">📋</span> 厨房电器设备清单</div>
-    <div id="deviceList"></div>
-    <button class="btn btn-outline" style="margin-top:8px;padding:10px" onclick="addDevice()">+ 添加设备</button>
-  </div>
+  <div class="card"><div class="card-title"><span class="icon">📋</span> 厨房电器设备清单</div><div id="deviceList"></div><button class="btn btn-outline" style="margin-top:8px;padding:10px" onclick="addDevice()">+ 添加设备</button></div>
 
-  <!-- 燃气灶检查 -->
-  <div class="card" id="stoveSection">
-    <div class="card-title"><span class="icon">🔥</span> 燃气灶安全检查</div>
-    <div id="stoveChecks"></div>
-  </div>
+  <div class="card"><div class="card-title"><span class="icon">🔥</span> 燃气灶安全检查</div><div id="stoveChecks"></div></div>
+  <div class="card"><div class="card-title"><span class="icon">💨</span> 吸油烟机安全检查</div><div id="hoodChecks"></div></div>
+  <div class="card"><div class="card-title"><span class="icon">🚿</span> 燃气热水器安全检查</div><div id="waterChecks"></div></div>
+  <div class="card"><div class="card-title"><span class="icon">⚠️</span> 燃气安全专项检测</div><div id="gasChecks"></div></div>
+  <div class="card"><div class="card-title"><span class="icon">⚡</span> 电气安全检测</div><div id="elecChecks"></div></div>
 
-  <!-- 吸油烟机检查 -->
-  <div class="card" id="hoodSection">
-    <div class="card-title"><span class="icon">💨</span> 吸油烟机安全检查</div>
-    <div id="hoodChecks"></div>
-  </div>
-
-  <!-- 燃气热水器检查 -->
-  <div class="card" id="waterSection">
-    <div class="card-title"><span class="icon">🚿</span> 燃气热水器安全检查</div>
-    <div id="waterChecks"></div>
-  </div>
-
-  <!-- 燃气安全专项 -->
-  <div class="card" id="gasSection">
-    <div class="card-title"><span class="icon">⚠️</span> 燃气安全专项检测</div>
-    <div id="gasChecks"></div>
-  </div>
-
-  <!-- 电气安全 -->
-  <div class="card" id="elecSection">
-    <div class="card-title"><span class="icon">⚡</span> 电气安全检测</div>
-    <div id="elecChecks"></div>
-  </div>
-
-  <!-- 综合结论 -->
-  <div class="card">
-    <div class="card-title"><span class="icon">📊</span> 综合检测结论</div>
+  <div class="card"><div class="card-title"><span class="icon">📊</span> 综合检测结论</div>
     <div class="form-group"><label>燃气安全</label><select id="clGas"><option value="0">安全</option><option value="1">有隐患</option></select></div>
     <div class="form-group"><label>电气安全</label><select id="clElec"><option value="0">安全</option><option value="1">有隐患</option></select></div>
     <div class="form-group"><label>设备运行状态</label><select id="clDev"><option value="0">良好</option><option value="1">一般</option><option value="2">需维修</option></select></div>
     <div class="form-group"><label>使用环境</label><select id="clEnv"><option value="0">合规</option><option value="1">需改善</option></select></div>
-    <div class="form-group"><label>总体结论</label><select id="clOverall">
-      <option value="0">整体安全，可正常使用</option>
-      <option value="1">存在隐患，建议整改后使用</option>
-      <option value="2">存在严重隐患，建议立即停用并整改</option>
-      <option value="3">设备超期服役，建议以旧换新</option>
-    </select></div>
+    <div class="form-group"><label>总体结论</label><select id="clOverall"><option value="0">整体安全，可正常使用</option><option value="1">存在隐患，建议整改后使用</option><option value="2">存在严重隐患，建议立即停用并整改</option><option value="3">设备超期服役，建议以旧换新</option></select></div>
     <div class="form-group"><label>风险等级</label><select id="clRisk"><option value="0">正常（绿色）</option><option value="1">预警（橙色）</option><option value="2">危险（红色）</option></select></div>
   </div>
 
-  <!-- 整改建议 -->
-  <div class="card">
-    <div class="card-title"><span class="icon">🔧</span> 整改建议</div>
-    <div id="suggestionList"></div>
-    <button class="btn btn-outline" style="margin-top:8px;padding:10px" onclick="addSuggestion()">+ 添加整改建议</button>
-  </div>
+  <div class="card"><div class="card-title"><span class="icon">🔧</span> 整改建议</div><div id="suggestionList"></div><button class="btn btn-outline" style="margin-top:8px;padding:10px" onclick="addSuggestion()">+ 添加整改建议</button></div>
 
-  <!-- 增值服务 -->
-  <div class="card">
-    <div class="card-title"><span class="icon">⭐</span> 增值服务（可多选）</div>
-    <div id="serviceChecks"></div>
-  </div>
+  <div class="card"><div class="card-title"><span class="icon">⭐</span> 增值服务（可多选）</div><div id="serviceChecks"></div></div>
 
-  <!-- 门店信息 -->
-  <div class="card">
-    <div class="card-title"><span class="icon">🏪</span> 门店信息</div>
-    <div class="form-row">
-      <div class="form-group"><label>门店名称</label><input id="sName" placeholder="门店名称"></div>
-      <div class="form-group"><label>门店编码</label><input id="sCode" placeholder="编码"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>服务电话</label><input id="sPhone" type="tel" placeholder="门店电话"></div>
-      <div class="form-group"><label>门店地址</label><input id="sAddr" placeholder="地址"></div>
-    </div>
+  <div class="card"><div class="card-title"><span class="icon">🏪</span> 门店信息</div>
+    <div class="form-row"><div class="form-group"><label>门店名称</label><input id="sName" placeholder="门店名称"></div><div class="form-group"><label>门店编码</label><input id="sCode" placeholder="编码"></div></div>
+    <div class="form-row"><div class="form-group"><label>服务电话</label><input id="sPhone" type="tel" placeholder="门店电话"></div><div class="form-group"><label>门店地址</label><input id="sAddr" placeholder="地址"></div></div>
     <div class="form-group"><label>安检员姓名</label><input id="inspName" placeholder="安检员"></div>
   </div>
 
-  <!-- 生成按钮 -->
-  <button class="btn btn-primary" onclick="generateReport()" id="btnGenerate">📱 生成消费者检测报告链接</button>
-  <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--gray-light)">
-    填写完成后点击生成链接，复制发送给消费者
-  </div>
+  <button class="btn btn-primary" onclick="generateReport()">📱 生成消费者检测报告链接</button>
+  <div style="text-align:center;margin-top:8px;font-size:11px;color:var(--gray-light)">填写完成后点击生成链接，复制发送给消费者</div>
 </div>
 
-<!-- ============================================ -->
-<!-- VIEW MODE (消费者查看报告) -->
-<!-- ============================================ -->
-<div id="viewMode" class="report-view">
-  <div id="reportContent"></div>
-</div>
+<div id="viewMode" class="report-view"><div id="reportContent"></div></div>
 
-<!-- ============================================ -->
-<!-- RESULT MODAL (链接生成结果) -->
-<!-- ============================================ -->
 <div id="resultModal" class="report-view">
   <div class="card" style="text-align:center">
     <div style="font-size:48px;margin:10px 0">✅</div>
@@ -496,249 +155,107 @@ body {
   </div>
 </div>
 
-</div><!-- /container -->
+</div>
 
 <script>
-// ===== LZString 精简实现 =====
 var LZString = (function() {
-  var f = String.fromCharCode;
-  var keyStrBase64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-  var baseReverseDic = {};
-  
-  function _compress(uncompressed, bitsPerChar, getCharFromInt) {
-    if (uncompressed === null) return "";
-    var i, value, context_dictionary = {}, context_dictionaryToCreate = {},
-        context_c = "", context_wc = "", context_w = "", context_enlargeIn = 2,
-        context_dictSize = 3, context_numBits = 2,
-        context_data = [], context_data_val = 0, context_data_position = 0, ii;
-    for (ii = 0; ii < uncompressed.length; ii++) {
-      context_c = uncompressed.charAt(ii);
-      if (!Object.prototype.hasOwnProperty.call(context_dictionary, context_c)) {
-        context_dictionary[context_c] = context_dictSize++;
-        context_dictionaryToCreate[context_c] = true;
-      }
-      context_wc = context_w + context_c;
-      if (Object.prototype.hasOwnProperty.call(context_dictionary, context_wc)) {
-        context_w = context_wc;
-      } else {
-        if (Object.prototype.hasOwnProperty.call(context_dictionaryToCreate, context_w)) {
-          if (context_w.charCodeAt(0) < 256) {
-            for (i = 0; i < context_numBits; i++) {
-              context_data_val = (context_data_val << 1);
-              if (context_data_position == bitsPerChar - 1) {
-                context_data_position = 0;
-                context_data.push(getCharFromInt(context_data_val));
-                context_data_val = 0;
-              } else { context_data_position++; }
-            }
-            value = context_w.charCodeAt(0);
-            for (i = 0; i < 8; i++) {
-              context_data_val = (context_data_val << 1) | (value & 1);
-              if (context_data_position == bitsPerChar - 1) {
-                context_data_position = 0;
-                context_data.push(getCharFromInt(context_data_val));
-                context_data_val = 0;
-              } else { context_data_position++; }
-              value = value >> 1;
-            }
+  var f = String.fromCharCode,
+      keyStrBase64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+      baseReverseDic = {};
+
+  // Build reverse base64 lookup
+  for (var i = 0; i < keyStrBase64.length; i++) baseReverseDic[keyStrBase64.charAt(i)] = i;
+
+  function _compress(u, bpc, gcfi) {
+    if (u === null) return "";
+    var i, v, cd = {}, cdc = {}, cc = "", cwc = "", cw = "", cei = 2, cds = 3, cnb = 2,
+        cda = [], cdv = 0, cdp = 0, ii;
+    for (ii = 0; ii < u.length; ii++) {
+      cc = u.charAt(ii);
+      if (!Object.prototype.hasOwnProperty.call(cd, cc)) { cd[cc] = cds++; cdc[cc] = true; }
+      cwc = cw + cc;
+      if (Object.prototype.hasOwnProperty.call(cd, cwc)) { cw = cwc; }
+      else {
+        if (Object.prototype.hasOwnProperty.call(cdc, cw)) {
+          if (cw.charCodeAt(0) < 256) {
+            for (i = 0; i < cnb; i++) { cdv <<= 1; if (cdp == bpc - 1) { cdp = 0; cda.push(gcfi(cdv)); cdv = 0; } else cdp++; }
+            v = cw.charCodeAt(0);
+            for (i = 0; i < 8; i++) { cdv = (cdv << 1) | (v & 1); if (cdp == bpc - 1) { cdp = 0; cda.push(gcfi(cdv)); cdv = 0; } else cdp++; v >>= 1; }
           } else {
-            value = 1;
-            for (i = 0; i < context_numBits; i++) {
-              context_data_val = (context_data_val << 1) | value;
-              if (context_data_position == bitsPerChar - 1) {
-                context_data_position = 0;
-                context_data.push(getCharFromInt(context_data_val));
-                context_data_val = 0;
-              } else { context_data_position++; }
-              value = 0;
-            }
-            value = context_w.charCodeAt(0);
-            for (i = 0; i < 16; i++) {
-              context_data_val = (context_data_val << 1) | (value & 1);
-              if (context_data_position == bitsPerChar - 1) {
-                context_data_position = 0;
-                context_data.push(getCharFromInt(context_data_val));
-                context_data_val = 0;
-              } else { context_data_position++; }
-              value = value >> 1;
-            }
+            v = 1;
+            for (i = 0; i < cnb; i++) { cdv = (cdv << 1) | v; if (cdp == bpc - 1) { cdp = 0; cda.push(gcfi(cdv)); cdv = 0; } else cdp++; v = 0; }
+            v = cw.charCodeAt(0);
+            for (i = 0; i < 16; i++) { cdv = (cdv << 1) | (v & 1); if (cdp == bpc - 1) { cdp = 0; cda.push(gcfi(cdv)); cdv = 0; } else cdp++; v >>= 1; }
           }
-          context_enlargeIn--;
-          if (context_enlargeIn == 0) { context_enlargeIn = Math.pow(2, context_numBits); context_numBits++; }
-          delete context_dictionaryToCreate[context_w];
+          cei--; if (cei == 0) { cei = Math.pow(2, cnb); cnb++; }
+          delete cdc[cw];
         } else {
-          value = context_dictionary[context_w];
-          for (i = 0; i < context_numBits; i++) {
-            context_data_val = (context_data_val << 1) | (value & 1);
-            if (context_data_position == bitsPerChar - 1) {
-              context_data_position = 0;
-              context_data.push(getCharFromInt(context_data_val));
-              context_data_val = 0;
-            } else { context_data_position++; }
-            value = value >> 1;
-          }
+          v = cd[cw];
+          for (i = 0; i < cnb; i++) { cdv = (cdv << 1) | (v & 1); if (cdp == bpc - 1) { cdp = 0; cda.push(gcfi(cdv)); cdv = 0; } else cdp++; v >>= 1; }
         }
-        context_enlargeIn--;
-        if (context_enlargeIn == 0) { context_enlargeIn = Math.pow(2, context_numBits); context_numBits++; }
-        context_dictionary[context_wc] = context_dictSize++;
-        context_w = String(context_c);
+        cei--; if (cei == 0) { cei = Math.pow(2, cnb); cnb++; }
+        cd[cwc] = cds++; cw = String(cc);
       }
     }
-    if (context_w !== "") {
-      if (Object.prototype.hasOwnProperty.call(context_dictionaryToCreate, context_w)) {
-        if (context_w.charCodeAt(0) < 256) {
-          for (i = 0; i < context_numBits; i++) {
-            context_data_val = (context_data_val << 1);
-            if (context_data_position == bitsPerChar - 1) {
-              context_data_position = 0;
-              context_data.push(getCharFromInt(context_data_val));
-              context_data_val = 0;
-            } else { context_data_position++; }
-          }
-          value = context_w.charCodeAt(0);
-          for (i = 0; i < 8; i++) {
-            context_data_val = (context_data_val << 1) | (value & 1);
-            if (context_data_position == bitsPerChar - 1) {
-              context_data_position = 0;
-              context_data.push(getCharFromInt(context_data_val));
-              context_data_val = 0;
-            } else { context_data_position++; }
-            value = value >> 1;
-          }
+    if (cw !== "") {
+      if (Object.prototype.hasOwnProperty.call(cdc, cw)) {
+        if (cw.charCodeAt(0) < 256) {
+          for (i = 0; i < cnb; i++) { cdv <<= 1; if (cdp == bpc - 1) { cdp = 0; cda.push(gcfi(cdv)); cdv = 0; } else cdp++; }
+          v = cw.charCodeAt(0);
+          for (i = 0; i < 8; i++) { cdv = (cdv << 1) | (v & 1); if (cdp == bpc - 1) { cdp = 0; cda.push(gcfi(cdv)); cdv = 0; } else cdp++; v >>= 1; }
         } else {
-          value = 1;
-          for (i = 0; i < context_numBits; i++) {
-            context_data_val = (context_data_val << 1) | value;
-            if (context_data_position == bitsPerChar - 1) {
-              context_data_position = 0;
-              context_data.push(getCharFromInt(context_data_val));
-              context_data_val = 0;
-            } else { context_data_position++; }
-            value = 0;
-          }
-          value = context_w.charCodeAt(0);
-          for (i = 0; i < 16; i++) {
-            context_data_val = (context_data_val << 1) | (value & 1);
-            if (context_data_position == bitsPerChar - 1) {
-              context_data_position = 0;
-              context_data.push(getCharFromInt(context_data_val));
-              context_data_val = 0;
-            } else { context_data_position++; }
-            value = value >> 1;
-          }
+          v = 1;
+          for (i = 0; i < cnb; i++) { cdv = (cdv << 1) | v; if (cdp == bpc - 1) { cdp = 0; cda.push(gcfi(cdv)); cdv = 0; } else cdp++; v = 0; }
+          v = cw.charCodeAt(0);
+          for (i = 0; i < 16; i++) { cdv = (cdv << 1) | (v & 1); if (cdp == bpc - 1) { cdp = 0; cda.push(gcfi(cdv)); cdv = 0; } else cdp++; v >>= 1; }
         }
-        context_enlargeIn--;
-        if (context_enlargeIn == 0) { context_enlargeIn = Math.pow(2, context_numBits); context_numBits++; }
-        delete context_dictionaryToCreate[context_w];
+        cei--; if (cei == 0) { cei = Math.pow(2, cnb); cnb++; }
+        delete cdc[cw];
       } else {
-        value = context_dictionary[context_w];
-        for (i = 0; i < context_numBits; i++) {
-          context_data_val = (context_data_val << 1) | (value & 1);
-          if (context_data_position == bitsPerChar - 1) {
-            context_data_position = 0;
-            context_data.push(getCharFromInt(context_data_val));
-            context_data_val = 0;
-          } else { context_data_position++; }
-          value = value >> 1;
-        }
+        v = cd[cw];
+        for (i = 0; i < cnb; i++) { cdv = (cdv << 1) | (v & 1); if (cdp == bpc - 1) { cdp = 0; cda.push(gcfi(cdv)); cdv = 0; } else cdp++; v >>= 1; }
       }
-      context_enlargeIn--;
-      if (context_enlargeIn == 0) { context_enlargeIn = Math.pow(2, context_numBits); context_numBits++; }
+      cei--; if (cei == 0) { cei = Math.pow(2, cnb); cnb++; }
     }
-    value = 2;
-    for (i = 0; i < context_numBits; i++) {
-      context_data_val = (context_data_val << 1) | (value & 1);
-      if (context_data_position == bitsPerChar - 1) {
-        context_data_position = 0;
-        context_data.push(getCharFromInt(context_data_val));
-        context_data_val = 0;
-      } else { context_data_position++; }
-      value = value >> 1;
-    }
-    while (true) {
-      context_data_val = (context_data_val << 1);
-      if (context_data_position == bitsPerChar - 1) {
-        context_data.push(getCharFromInt(context_data_val));
-        break;
-      } else context_data_position++;
-    }
-    return context_data.join('');
+    v = 2;
+    for (i = 0; i < cnb; i++) { cdv = (cdv << 1) | (v & 1); if (cdp == bpc - 1) { cdp = 0; cda.push(gcfi(cdv)); cdv = 0; } else cdp++; v >>= 1; }
+    while (true) { cdv <<= 1; if (cdp == bpc - 1) { cda.push(gcfi(cdv)); break; } else cdp++; }
+    return cda.join('');
   }
 
-  function _decompress(length, resetValue, getNextValue) {
-    var dictionary = [], enlargeIn = 4, dictSize = 4, numBits = 3, entry = "", result = [],
-        w, bits, resb, maxpower, power, c, data = {val: getNextValue(0), position: resetValue, index: 1};
-    for (var i = 0; i < 3; i += 1) dictionary[i] = i;
-    bits = 0; maxpower = Math.pow(2, 2); power = 1;
-    while (power != maxpower) {
-      resb = data.val & data.position;
-      data.position >>= 1;
-      if (data.position == 0) { data.position = resetValue; data.val = getNextValue(data.index++); }
-      bits |= (resb > 0 ? 1 : 0) * power;
-      power <<= 1;
-    }
+  function _decompress(l, rv, gnv) {
+    var d = [], ei = 4, ds = 4, nb = 3, e = "", r = [], w, bits, resb, mp, p, c,
+        data = { val: gnv(0), pos: rv, idx: 1 };
+    for (var i = 0; i < 3; i++) d[i] = i;
+    bits = 0; mp = Math.pow(2, 2); p = 1;
+    while (p != mp) { resb = data.val & data.pos; data.pos >>= 1; if (data.pos == 0) { data.pos = rv; data.val = gnv(data.idx++); } bits |= (resb > 0 ? 1 : 0) * p; p <<= 1; }
     switch (bits) {
-      case 0: bits = 0; maxpower = Math.pow(2, 8); power = 1;
-        while (power != maxpower) {
-          resb = data.val & data.position;
-          data.position >>= 1;
-          if (data.position == 0) { data.position = resetValue; data.val = getNextValue(data.index++); }
-          bits |= (resb > 0 ? 1 : 0) * power;
-          power <<= 1;
-        }
+      case 0: bits = 0; mp = Math.pow(2, 8); p = 1;
+        while (p != mp) { resb = data.val & data.pos; data.pos >>= 1; if (data.pos == 0) { data.pos = rv; data.val = gnv(data.idx++); } bits |= (resb > 0 ? 1 : 0) * p; p <<= 1; }
         c = f(bits); break;
-      case 1: bits = 0; maxpower = Math.pow(2, 16); power = 1;
-        while (power != maxpower) {
-          resb = data.val & data.position;
-          data.position >>= 1;
-          if (data.position == 0) { data.position = resetValue; data.val = getNextValue(data.index++); }
-          bits |= (resb > 0 ? 1 : 0) * power;
-          power <<= 1;
-        }
+      case 1: bits = 0; mp = Math.pow(2, 16); p = 1;
+        while (p != mp) { resb = data.val & data.pos; data.pos >>= 1; if (data.pos == 0) { data.pos = rv; data.val = gnv(data.idx++); } bits |= (resb > 0 ? 1 : 0) * p; p <<= 1; }
         c = f(bits); break;
       case 2: return "";
     }
-    dictionary[3] = c; w = c; result.push(c);
+    d[3] = c; w = c; r.push(c);
     while (true) {
-      if (data.index > length) return "";
-      bits = 0; maxpower = Math.pow(2, numBits); power = 1;
-      while (power != maxpower) {
-        resb = data.val & data.position;
-        data.position >>= 1;
-        if (data.position == 0) { data.position = resetValue; data.val = getNextValue(data.index++); }
-        bits |= (resb > 0 ? 1 : 0) * power;
-        power <<= 1;
-      }
+      if (data.idx > l) return "";
+      bits = 0; mp = Math.pow(2, nb); p = 1;
+      while (p != mp) { resb = data.val & data.pos; data.pos >>= 1; if (data.pos == 0) { data.pos = rv; data.val = gnv(data.idx++); } bits |= (resb > 0 ? 1 : 0) * p; p <<= 1; }
       switch (c = bits) {
-        case 0: bits = 0; maxpower = Math.pow(2, 8); power = 1;
-          while (power != maxpower) {
-            resb = data.val & data.position;
-            data.position >>= 1;
-            if (data.position == 0) { data.position = resetValue; data.val = getNextValue(data.index++); }
-            bits |= (resb > 0 ? 1 : 0) * power;
-            power <<= 1;
-          }
-          dictionary[dictSize++] = f(bits); c = dictSize - 1; enlargeIn--; break;
-        case 1: bits = 0; maxpower = Math.pow(2, 16); power = 1;
-          while (power != maxpower) {
-            resb = data.val & data.position;
-            data.position >>= 1;
-            if (data.position == 0) { data.position = resetValue; data.val = getNextValue(data.index++); }
-            bits |= (resb > 0 ? 1 : 0) * power;
-            power <<= 1;
-          }
-          dictionary[dictSize++] = f(bits); c = dictSize - 1; enlargeIn--; break;
-        case 2: return result.join('');
+        case 0: bits = 0; mp = Math.pow(2, 8); p = 1;
+          while (p != mp) { resb = data.val & data.pos; data.pos >>= 1; if (data.pos == 0) { data.pos = rv; data.val = gnv(data.idx++); } bits |= (resb > 0 ? 1 : 0) * p; p <<= 1; }
+          d[ds++] = f(bits); c = ds - 1; ei--; break;
+        case 1: bits = 0; mp = Math.pow(2, 16); p = 1;
+          while (p != mp) { resb = data.val & data.pos; data.pos >>= 1; if (data.pos == 0) { data.pos = rv; data.val = gnv(data.idx++); } bits |= (resb > 0 ? 1 : 0) * p; p <<= 1; }
+          d[ds++] = f(bits); c = ds - 1; ei--; break;
+        case 2: return r.join('');
       }
-      if (enlargeIn == 0) { enlargeIn = Math.pow(2, numBits); numBits++; }
-      if (dictionary[c]) { entry = dictionary[c]; } else {
-        if (c === dictSize) { entry = w + w.charAt(0); } else { return null; }
-      }
-      result.push(entry);
-      dictionary[dictSize++] = w + entry.charAt(0);
-      enlargeIn--;
-      w = entry;
-      if (enlargeIn == 0) { enlargeIn = Math.pow(2, numBits); numBits++; }
+      if (ei == 0) { ei = Math.pow(2, nb); nb++; }
+      if (d[c]) { e = d[c]; } else { if (c === ds) { e = w + w.charAt(0); } else return null; }
+      r.push(e); d[ds++] = w + e.charAt(0); ei--; w = e;
+      if (ei == 0) { ei = Math.pow(2, nb); nb++; }
     }
   }
 
@@ -746,177 +263,89 @@ var LZString = (function() {
     compressToBase64: function(input) {
       if (input === null) return "";
       var res = _compress(input, 6, function(a) { return keyStrBase64.charAt(a); });
-      switch (res.length % 4) {
-        case 0: return res;
-        case 1: return res + "===";
-        case 2: return res + "==";
-        case 3: return res + "=";
-      }
+      switch (res.length % 4) { case 0: return res; case 1: return res + "==="; case 2: return res + "=="; case 3: return res + "="; }
     },
     decompressFromBase64: function(input) {
       if (input === null) return "";
       if (input === "") return null;
-      return _decompress(input.length, 32, function(index) { return baseReverseDic[input.charAt(index)]; });
+      return _decompress(input.length, 32, function(idx) { return baseReverseDic[input.charAt(idx)]; });
     }
   };
 })();
-// Build reverse base64 lookup
-(function() {
-  var b = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-  for (var i = 0; i < b.length; i++) { baseReverseDic[b.charAt(i)] = i; }
-})();
 
-// ===== DATA MODEL =====
 var CHECK_GROUPS = {
-  stove: {
-    title: '燃气灶安全检查',
-    icon: '🔥',
-    items: [
-      ['外观完整性','面板无破裂、旋钮正常、支锅架稳固'],
-      ['点火功能','按压/旋转点火正常，点火针无积碳'],
-      ['火焰状态','火焰呈蓝色、无离焰/回火/黄焰'],
-      ['熄火保护装置','点燃后吹灭火焰，10秒内自动切断燃气'],
-      ['燃气连接管','不锈钢波纹管/专用软管，无老化龟裂'],
-      ['管接头密封','发泡剂检测接头无气泡，无松动泄漏'],
-      ['软管长度','软管≤2米，中间无接头/三通'],
-      ['燃气阀门','开关灵活、无泄漏'],
-      ['CO浓度','燃烧5分钟后 CO≤500ppm（距灶面30cm）'],
-      ['使用年限','8年以内（超期建议更换）']
-    ]
-  },
-  hood: {
-    title: '吸油烟机安全检查',
-    icon: '💨',
-    items: [
-      ['安装牢固性','机体无松动、挂板/支架稳固'],
-      ['电源线/插头','无破损、无老化、接地良好'],
-      ['开关/按键','所有按键功能正常、指示灯正常'],
-      ['吸力测试','各档位运行正常，无异常噪音/振动'],
-      ['止逆阀','开闭正常、无卡滞、密封良好'],
-      ['排烟管道','连接牢固、无破损/脱落/堵塞'],
-      ['油网/油杯','油网清洗状况良好、油杯容量正常'],
-      ['自动清洗','如有：功能正常运转'],
-      ['外观/照明','照明灯正常、无严重油污积累']
-    ]
-  },
-  water: {
-    title: '燃气热水器安全检查',
-    icon: '🚿',
-    items: [
-      ['安装位置','通风良好，非卧室/浴室/密闭空间'],
-      ['排烟管','完整、接口密封、通向室外'],
-      ['燃气连接','无泄漏、管接头牢固'],
-      ['水路连接','无渗漏、水压正常、水温正常'],
-      ['点火/燃烧','点火顺畅、燃烧稳定、无爆燃'],
-      ['熄火保护','意外熄火后燃气自动切断'],
-      ['防冻功能','冬季防冻装置正常（如有）'],
-      ['电源/漏保','插头接地良好、漏电保护正常'],
-      ['使用年限','8年以内（超期建议更换）']
-    ]
-  },
-  gas: {
-    title: '燃气安全专项检测',
-    icon: '⚠️',
-    items: [
-      ['户内燃气管路气密性','U型压力计/电子检漏仪，保压5分钟无压降'],
-      ['燃气表运行状态','读数正常、无锈蚀、电池充足'],
-      ['燃气表前阀','开关灵活、无泄漏、安检球阀'],
-      ['燃气报警器','安装合规、通电正常、在有效期内'],
-      ['紧急切断阀','与报警器联动正常'],
-      ['厨房通风','有通向室外的窗户或排气扇'],
-      ['多气源混用','无液化气与天然气混用']
-    ]
-  },
-  elec: {
-    title: '电气安全检测',
-    icon: '⚡',
-    items: [
-      ['插座接地','三孔插座接地有效（接地电阻≤4Ω）'],
-      ['漏电保护','配电箱漏保功能正常（30mA动作）'],
-      ['线路负载','厨房专线≥4mm²，无过热/烧焦痕迹'],
-      ['防水等级','插座距水源≥60cm，有防水盒'],
-      ['线路老化','无明显老化、破损、私拉乱接']
-    ]
-  }
+  stove: { title: '燃气灶安全检查', icon: '🔥', items: [
+    ['外观完整性','面板无破裂、旋钮正常、支锅架稳固'],['点火功能','按压/旋转点火正常，点火针无积碳'],
+    ['火焰状态','火焰呈蓝色、无离焰/回火/黄焰'],['熄火保护装置','点燃后吹灭火焰，10秒内自动切断燃气'],
+    ['燃气连接管','不锈钢波纹管/专用软管，无老化龟裂'],['管接头密封','发泡剂检测接头无气泡，无松动泄漏'],
+    ['软管长度','软管≤2米，中间无接头/三通'],['燃气阀门','开关灵活、无泄漏'],
+    ['CO浓度','燃烧5分钟后 CO≤500ppm（距灶面30cm）'],['使用年限','8年以内（超期建议更换）']
+  ]},
+  hood: { title: '吸油烟机安全检查', icon: '💨', items: [
+    ['安装牢固性','机体无松动、挂板/支架稳固'],['电源线/插头','无破损、无老化、接地良好'],
+    ['开关/按键','所有按键功能正常、指示灯正常'],['吸力测试','各档位运行正常，无异常噪音/振动'],
+    ['止逆阀','开闭正常、无卡滞、密封良好'],['排烟管道','连接牢固、无破损/脱落/堵塞'],
+    ['油网/油杯','油网清洗状况良好、油杯容量正常'],['自动清洗','如有：功能正常运转'],
+    ['外观/照明','照明灯正常、无严重油污积累']
+  ]},
+  water: { title: '燃气热水器安全检查', icon: '🚿', items: [
+    ['安装位置','通风良好，非卧室/浴室/密闭空间'],['排烟管','完整、接口密封、通向室外'],
+    ['燃气连接','无泄漏、管接头牢固'],['水路连接','无渗漏、水压正常、水温正常'],
+    ['点火/燃烧','点火顺畅、燃烧稳定、无爆燃'],['熄火保护','意外熄火后燃气自动切断'],
+    ['防冻功能','冬季防冻装置正常（如有）'],['电源/漏保','插头接地良好、漏电保护正常'],
+    ['使用年限','8年以内（超期建议更换）']
+  ]},
+  gas: { title: '燃气安全专项检测', icon: '⚠️', items: [
+    ['户内燃气管路气密性','U型压力计/电子检漏仪，保压5分钟无压降'],['燃气表运行状态','读数正常、无锈蚀、电池充足'],
+    ['燃气表前阀','开关灵活、无泄漏、安检球阀'],['燃气报警器','安装合规、通电正常、在有效期内'],
+    ['紧急切断阀','与报警器联动正常'],['厨房通风','有通向室外的窗户或排气扇'],
+    ['多气源混用','无液化气与天然气混用']
+  ]},
+  elec: { title: '电气安全检测', icon: '⚡', items: [
+    ['插座接地','三孔插座接地有效（接地电阻≤4Ω）'],['漏电保护','配电箱漏保功能正常（30mA动作）'],
+    ['线路负载','厨房专线≥4mm²，无过热/烧焦痕迹'],['防水等级','插座距水源≥60cm，有防水盒'],
+    ['线路老化','无明显老化、破损、私拉乱接']
+  ]}
 };
 
-var SERVICES = [
-  '烟机深度清洗（叶轮/油网/蜗壳拆洗）',
-  '灶具火盖清洗（火盖/火孔疏通）',
-  '灶具电池更换',
-  '燃气软管更换（不锈钢波纹管）',
-  '燃气报警器安装建议',
-  '安全使用指导'
-];
-
+var SERVICES = ['烟机深度清洗（叶轮/油网/蜗壳拆洗）','灶具火盖清洗（火盖/火孔疏通）','灶具电池更换','燃气软管更换（不锈钢波纹管）','燃气报警器安装建议','安全使用指导'];
 var DEVICE_TYPES = ['吸油烟机','燃气灶','燃气热水器','电热水器','洗碗机','蒸烤箱/一体机','集成灶','净水器','消毒柜'];
 
-// ===== INIT =====
-var currentMode = 'edit';
-var generatedData = null;
-var generatedUrl = '';
+var currentMode = 'edit', generatedData = null, generatedUrl = '';
 
 function init() {
   for (var gkey in CHECK_GROUPS) {
-    var group = CHECK_GROUPS[gkey];
-    var container = document.getElementById(gkey + 'Checks');
+    var group = CHECK_GROUPS[gkey], container = document.getElementById(gkey + 'Checks');
     group.items.forEach(function(item, idx) {
       var div = document.createElement('div');
-      div.className = 'check-item';
-      div.id = gkey + '_' + idx;
-      div.innerHTML = 
-        '<div class="check-num">' + (idx + 1) + '</div>' +
-        '<div class="check-info">' +
-          '<div class="check-name">' + item[0] + '</div>' +
-          '<div class="check-desc">' + item[1] + '</div>' +
-          '<input class="check-note" placeholder="异常说明（选填）">' +
-        '</div>' +
-        '<div class="check-result">' +
-          '<input type="radio" name="' + gkey + '_' + idx + '" id="' + gkey + '_' + idx + '_pass" value="0">' +
-          '<label class="pass" for="' + gkey + '_' + idx + '_pass">✓ 合格</label>' +
-          '<input type="radio" name="' + gkey + '_' + idx + '" id="' + gkey + '_' + idx + '_fail" value="1">' +
-          '<label class="fail" for="' + gkey + '_' + idx + '_fail">✗ 不合格</label>' +
-        '</div>';
+      div.className = 'check-item'; div.id = gkey + '_' + idx;
+      div.innerHTML = '<div class="check-num">' + (idx + 1) + '</div><div class="check-info"><div class="check-name">' + item[0] + '</div><div class="check-desc">' + item[1] + '</div><input class="check-note" placeholder="异常说明（选填）"></div><div class="check-result"><input type="radio" name="' + gkey + '_' + idx + '" id="' + gkey + '_' + idx + '_pass" value="0"><label class="pass" for="' + gkey + '_' + idx + '_pass">✓ 合格</label><input type="radio" name="' + gkey + '_' + idx + '" id="' + gkey + '_' + idx + '_fail" value="1"><label class="fail" for="' + gkey + '_' + idx + '_fail">✗ 不合格</label></div>';
       container.appendChild(div);
-      
-      var failRadio = document.getElementById(gkey + '_' + idx + '_fail');
-      var passRadio = document.getElementById(gkey + '_' + idx + '_pass');
-      failRadio.addEventListener('change', function() { div.classList.add('has-issue'); });
-      passRadio.addEventListener('change', function() { div.classList.remove('has-issue'); });
+      document.getElementById(gkey + '_' + idx + '_fail').addEventListener('change', function() { div.classList.add('has-issue'); });
+      document.getElementById(gkey + '_' + idx + '_pass').addEventListener('change', function() { div.classList.remove('has-issue'); });
     });
   }
-  
-  renderDevices();
-  renderSuggestions();
-  
-  var svcContainer = document.getElementById('serviceChecks');
+  renderDevices(); renderSuggestions();
+  var sc = document.getElementById('serviceChecks');
   SERVICES.forEach(function(svc, idx) {
     var label = document.createElement('label');
     label.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 0;font-size:13px;border-bottom:1px solid var(--border);cursor:pointer';
     label.innerHTML = '<input type="checkbox" id="svc_' + idx + '" style="width:18px;height:18px;accent-color:var(--red)"> ' + svc;
-    svcContainer.appendChild(label);
+    sc.appendChild(label);
   });
-  
   document.getElementById('cDate').value = new Date().toISOString().split('T')[0];
   checkUrlHash();
 }
 
 var deviceCount = 0;
 function renderDevices() {
-  var container = document.getElementById('deviceList');
-  container.innerHTML = '';
+  var c = document.getElementById('deviceList'); c.innerHTML = '';
   for (var i = 0; i < Math.max(deviceCount, 3); i++) {
-    var div = document.createElement('div');
-    div.className = 'form-row';
-    div.style.marginBottom = '6px';
+    var div = document.createElement('div'); div.className = 'form-row'; div.style.marginBottom = '6px';
     var opts = DEVICE_TYPES.map(function(t) { return '<option>' + t + '</option>'; }).join('');
-    var delBtn = i >= 3 ? '<button onclick="removeDevice(this)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer;padding:0 4px">×</button>' : '';
-    div.innerHTML = 
-      '<div class="form-group" style="flex:1.5"><select class="devType"><option value="">品类</option>' + opts + '</select></div>' +
-      '<div class="form-group" style="flex:1"><input class="devBrand" placeholder="品牌"></div>' +
-      '<div class="form-group" style="flex:1.5"><input class="devModel" placeholder="型号"></div>' +
-      '<div class="form-group" style="flex:1"><input class="devYear" placeholder="购买年"></div>' + delBtn;
-    container.appendChild(div);
+    var del = i >= 3 ? '<button onclick="removeDevice(this)" style="background:none;border:none;color:var(--red);font-size:18px;cursor:pointer;padding:0 4px">×</button>' : '';
+    div.innerHTML = '<div class="form-group" style="flex:1.5"><select class="devType"><option value="">品类</option>' + opts + '</select></div><div class="form-group" style="flex:1"><input class="devBrand" placeholder="品牌"></div><div class="form-group" style="flex:1.5"><input class="devModel" placeholder="型号"></div><div class="form-group" style="flex:1"><input class="devYear" placeholder="购买年"></div>' + del;
+    c.appendChild(div);
   }
   deviceCount = Math.max(deviceCount, 3);
 }
@@ -925,20 +354,12 @@ function removeDevice(btn) { btn.parentElement.remove(); deviceCount = Math.max(
 
 var suggestionCount = 0;
 function renderSuggestions() {
-  var container = document.getElementById('suggestionList');
-  container.innerHTML = '';
+  var c = document.getElementById('suggestionList'); c.innerHTML = '';
   for (var i = 0; i < Math.max(suggestionCount, 1); i++) {
-    var div = document.createElement('div');
-    div.style.cssText = 'padding:8px 0;border-bottom:1px solid var(--border)';
-    var delBtn = i >= 1 ? '<button onclick="removeSuggestion(this)" style="background:none;border:none;color:var(--red);font-size:12px;cursor:pointer">删除此条</button>' : '';
-    div.innerHTML = 
-      '<div class="form-group"><label>问题描述</label><input class="sgProblem" placeholder="如：燃气灶连接管老化"></div>' +
-      '<div class="form-row">' +
-        '<div class="form-group" style="flex:1"><select class="sgRisk"><option value="0">低风险</option><option value="1">中风险</option><option value="2">高风险</option></select></div>' +
-        '<div class="form-group" style="flex:2"><input class="sgProduct" placeholder="推荐产品（选填）"></div>' +
-      '</div>' +
-      '<div class="form-group"><input class="sgFix" placeholder="整改建议"></div>' + delBtn;
-    container.appendChild(div);
+    var div = document.createElement('div'); div.style.cssText = 'padding:8px 0;border-bottom:1px solid var(--border)';
+    var del = i >= 1 ? '<button onclick="removeSuggestion(this)" style="background:none;border:none;color:var(--red);font-size:12px;cursor:pointer">删除此条</button>' : '';
+    div.innerHTML = '<div class="form-group"><label>问题描述</label><input class="sgProblem" placeholder="如：燃气灶连接管老化"></div><div class="form-row"><div class="form-group" style="flex:1"><select class="sgRisk"><option value="0">低风险</option><option value="1">中风险</option><option value="2">高风险</option></select></div><div class="form-group" style="flex:2"><input class="sgProduct" placeholder="推荐产品（选填）"></div></div><div class="form-group"><input class="sgFix" placeholder="整改建议"></div>' + del;
+    c.appendChild(div);
   }
   suggestionCount = Math.max(suggestionCount, 1);
 }
@@ -947,7 +368,6 @@ function removeSuggestion(btn) { btn.parentElement.remove(); suggestionCount = M
 
 function collectData() {
   var data = { v: 1, c: {}, s: {}, h: {}, w: {}, g: {}, e: {}, cl: {}, sg: [], sv: [], st: {}, insp: {} };
-  
   data.c.n = document.getElementById('cName').value.trim();
   data.c.p = document.getElementById('cPhone').value.trim();
   data.c.d = document.getElementById('cDate').value;
@@ -955,105 +375,66 @@ function collectData() {
   data.c.a = document.getElementById('cAddr').value.trim();
   data.c.gas = document.getElementById('cGas').value;
   data.c.src = document.getElementById('cSource').value;
-  
   data.dev = [];
   document.querySelectorAll('#deviceList .form-row').forEach(function(row) {
-    var type = row.querySelector('.devType').value;
-    var brand = row.querySelector('.devBrand').value.trim();
-    var model = row.querySelector('.devModel').value.trim();
-    var year = row.querySelector('.devYear').value.trim();
-    if (type || brand || model || year) {
-      data.dev.push([type, brand, model, year]);
-    }
+    var t = row.querySelector('.devType').value, b = row.querySelector('.devBrand').value.trim(),
+        m = row.querySelector('.devModel').value.trim(), y = row.querySelector('.devYear').value.trim();
+    if (t || b || m || y) data.dev.push([t, b, m, y]);
   });
-  
-  var groupFirsts = { stove: 's', hood: 'h', water: 'w', gas: 'g', elec: 'e' };
-  for (var gkey in CHECK_GROUPS) {
-    var group = CHECK_GROUPS[gkey];
-    var dk = groupFirsts[gkey];
-    data[dk] = {};
-    group.items.forEach(function(item, idx) {
-      var passRadio = document.getElementById(gkey + '_' + idx + '_pass');
-      var failRadio = document.getElementById(gkey + '_' + idx + '_fail');
-      var noteInput = document.getElementById(gkey + '_' + idx).querySelector('.check-note');
-      var val = passRadio && passRadio.checked ? 0 : (failRadio && failRadio.checked ? 1 : -1);
-      var note = noteInput ? noteInput.value.trim() : '';
-      data[dk][idx] = val;
-      if (note) data[dk]['n' + idx] = note;
+  var gf = { stove: 's', hood: 'h', water: 'w', gas: 'g', elec: 'e' };
+  for (var gk in CHECK_GROUPS) {
+    var dk = gf[gk]; data[dk] = {};
+    CHECK_GROUPS[gk].items.forEach(function(item, idx) {
+      var pr = document.getElementById(gk + '_' + idx + '_pass'), fr = document.getElementById(gk + '_' + idx + '_fail');
+      var ni = document.getElementById(gk + '_' + idx).querySelector('.check-note');
+      var val = pr && pr.checked ? 0 : (fr && fr.checked ? 1 : -1);
+      var note = ni ? ni.value.trim() : '';
+      data[dk][idx] = val; if (note) data[dk]['n' + idx] = note;
     });
   }
-  
   data.cl.gas = parseInt(document.getElementById('clGas').value);
   data.cl.elec = parseInt(document.getElementById('clElec').value);
   data.cl.dev = parseInt(document.getElementById('clDev').value);
   data.cl.env = parseInt(document.getElementById('clEnv').value);
   data.cl.overall = parseInt(document.getElementById('clOverall').value);
   data.cl.risk = parseInt(document.getElementById('clRisk').value);
-  
   document.querySelectorAll('#suggestionList > div').forEach(function(div) {
-    var problem = div.querySelector('.sgProblem').value.trim();
-    var risk = div.querySelector('.sgRisk').value;
-    var fix = div.querySelector('.sgFix').value.trim();
-    var product = div.querySelector('.sgProduct').value.trim();
-    if (problem || fix) {
-      data.sg.push({ p: problem, r: parseInt(risk), f: fix, pr: product });
-    }
+    var p = div.querySelector('.sgProblem').value.trim(), r = div.querySelector('.sgRisk').value,
+        f = div.querySelector('.sgFix').value.trim(), pr = div.querySelector('.sgProduct').value.trim();
+    if (p || f) data.sg.push({ p: p, r: parseInt(r), f: f, pr: pr });
   });
-  
-  SERVICES.forEach(function(svc, idx) {
-    var cb = document.getElementById('svc_' + idx);
-    if (cb && cb.checked) data.sv.push(idx);
-  });
-  
+  SERVICES.forEach(function(svc, idx) { var cb = document.getElementById('svc_' + idx); if (cb && cb.checked) data.sv.push(idx); });
   data.st.n = document.getElementById('sName').value.trim();
   data.st.c = document.getElementById('sCode').value.trim();
   data.st.p = document.getElementById('sPhone').value.trim();
   data.st.a = document.getElementById('sAddr').value.trim();
-  
   data.insp.n = document.getElementById('inspName').value.trim();
   data.insp.d = document.getElementById('cDate').value;
-  
   return data;
 }
 
 function generateReport() {
   var data = collectData();
-  
-  if (!data.c.n && !data.c.p) {
-    showToast('请至少填写客户姓名或电话');
-    return;
-  }
-  
+  if (!data.c.n && !data.c.p) { showToast('请至少填写客户姓名或电话'); return; }
   generatedData = data;
-  
-  var json = JSON.stringify(data);
-  var compressed = LZString.compressToBase64(json);
-  var url = window.location.href.split('#')[0] + '#data=' + compressed;
-  generatedUrl = url;
-  
+  var json = JSON.stringify(data), compressed = LZString.compressToBase64(json);
+  generatedUrl = window.location.href.split('#')[0] + '#data=' + compressed;
   document.getElementById('editMode').style.display = 'none';
   document.getElementById('viewMode').style.display = 'none';
   document.getElementById('resultModal').style.display = 'block';
-  document.getElementById('reportUrl').textContent = url;
+  document.getElementById('reportUrl').textContent = generatedUrl;
   document.getElementById('modeSwitch').style.display = 'none';
   document.getElementById('headerSub').textContent = '报告已生成';
-  
   window.scrollTo(0, 0);
 }
 
 function copyUrl() {
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(generatedUrl).then(function() {
-      showToast('✅ 链接已复制，可发送给消费者');
-    });
+    navigator.clipboard.writeText(generatedUrl).then(function() { showToast('✅ 链接已复制，可发送给消费者'); });
   } else {
-    var ta = document.createElement('textarea');
-    ta.value = generatedUrl;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    showToast('✅ 链接已复制');
+    var ta = document.createElement('textarea'); ta.value = generatedUrl;
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta); showToast('✅ 链接已复制');
   }
 }
 
@@ -1065,9 +446,7 @@ function previewReport() {
   document.getElementById('btnEditMode').classList.remove('active');
   document.getElementById('btnViewMode').classList.add('active');
   document.getElementById('headerSub').textContent = '检测报告预览';
-  currentMode = 'view';
-  renderReport(generatedData);
-  window.scrollTo(0, 0);
+  currentMode = 'view'; renderReport(generatedData); window.scrollTo(0, 0);
 }
 
 function backToEdit() {
@@ -1078,121 +457,53 @@ function backToEdit() {
   document.getElementById('btnEditMode').classList.add('active');
   document.getElementById('btnViewMode').classList.remove('active');
   document.getElementById('headerSub').textContent = '厨房电器上门安检';
-  currentMode = 'edit';
-  window.scrollTo(0, 0);
+  currentMode = 'edit'; window.scrollTo(0, 0);
 }
 
 function renderReport(data) {
-  var html = '';
-  
-  var riskLevel = data.cl.risk;
-  var bannerClass = riskLevel == 2 ? 'danger' : (riskLevel == 1 ? 'warning' : 'safe');
-  var bannerIcon = riskLevel == 2 ? '🔴' : (riskLevel == 1 ? '⚠️' : '✅');
-  var bannerTitle = riskLevel == 2 ? '存在安全隐患' : (riskLevel == 1 ? '建议关注' : '检测通过');
-  var overallTexts = ['整体安全，可正常使用', '存在隐患，建议整改后使用', '存在严重隐患，建议立即停用并整改', '设备超期服役，建议以旧换新'];
-  var bannerSub = overallTexts[data.cl.overall] || '';
-  
-  html += '<div class="result-banner ' + bannerClass + '">';
-  html += '<div class="big-icon">' + bannerIcon + '</div>';
-  html += '<div class="big-title">' + bannerTitle + '</div>';
-  html += '<div class="big-sub">' + bannerSub + '</div>';
+  var html = '', rl = data.cl.risk;
+  var bc = rl == 2 ? 'danger' : (rl == 1 ? 'warning' : 'safe');
+  var bi = rl == 2 ? '🔴' : (rl == 1 ? '⚠️' : '✅');
+  var bt = rl == 2 ? '存在安全隐患' : (rl == 1 ? '建议关注' : '检测通过');
+  var ots = ['整体安全，可正常使用','存在隐患，建议整改后使用','存在严重隐患，建议立即停用并整改','设备超期服役，建议以旧换新'];
+  html += '<div class="result-banner ' + bc + '"><div class="big-icon">' + bi + '</div><div class="big-title">' + bt + '</div><div class="big-sub">' + (ots[data.cl.overall] || '') + '</div></div>';
+  var tc = 0, fc = 0, gf = { s: 'stove', h: 'hood', w: 'water', g: 'gas', e: 'elec' };
+  for (var gk in gf) { var dk = gf[gk], gd = data[gk]; if (!gd) continue; var its = CHECK_GROUPS[dk].items; for (var i = 0; i < its.length; i++) { if (gd[i] !== undefined && gd[i] >= 0) { tc++; if (gd[i] == 1) fc++; } } }
+  html += '<div class="summary-grid"><div class="summary-item"><div class="s-label">检测项目</div><div class="s-value">' + tc + ' 项</div></div><div class="summary-item"><div class="s-label">不通过</div><div class="s-value ' + (fc > 0 ? 'red' : 'green') + '">' + fc + ' 项</div></div>';
+  if (data.c.n) html += '<div class="summary-item"><div class="s-label">客户</div><div class="s-value" style="font-size:13px">' + esc(data.c.n) + '</div></div>';
+  if (data.c.d) html += '<div class="summary-item"><div class="s-label">日期</div><div class="s-value" style="font-size:13px">' + esc(data.c.d) + '</div></div>';
   html += '</div>';
-  
-  var totalChecks = 0, failChecks = 0;
-  var groupFirsts = { s: 'stove', h: 'hood', w: 'water', g: 'gas', e: 'elec' };
-  
-  for (var gk in groupFirsts) {
-    var dk = groupFirsts[gk];
-    var groupData = data[gk];
-    if (!groupData) continue;
-    var items = CHECK_GROUPS[dk].items;
-    for (var i = 0; i < items.length; i++) {
-      if (groupData[i] !== undefined && groupData[i] >= 0) {
-        totalChecks++;
-        if (groupData[i] == 1) failChecks++;
-      }
-    }
-  }
-  
-  html += '<div class="summary-grid">';
-  html += '<div class="summary-item"><div class="s-label">检测项目</div><div class="s-value">' + totalChecks + ' 项</div></div>';
-  html += '<div class="summary-item"><div class="s-label">不通过</div><div class="s-value ' + (failChecks > 0 ? 'red' : 'green') + '">' + failChecks + ' 项</div></div>';
-  if (data.c.n) html += '<div class="summary-item"><div class="s-label">客户</div><div class="s-value" style="font-size:13px">' + escapeHtml(data.c.n) + '</div></div>';
-  if (data.c.d) html += '<div class="summary-item"><div class="s-label">日期</div><div class="s-value" style="font-size:13px">' + escapeHtml(data.c.d) + '</div></div>';
-  html += '</div>';
-  
-  for (var gk in groupFirsts) {
-    var dk = groupFirsts[gk];
-    var groupData = data[gk];
-    if (!groupData) continue;
-    var group = CHECK_GROUPS[dk];
-    var items = group.items;
-    var hasAny = false;
-    for (var i = 0; i < items.length; i++) { if (groupData[i] !== undefined && groupData[i] >= 0) { hasAny = true; break; } }
-    if (!hasAny) continue;
-    
-    html += '<div class="report-section"><h3>' + group.icon + ' ' + group.title + '</h3>';
-    for (var i = 0; i < items.length; i++) {
-      if (groupData[i] === undefined || groupData[i] < 0) continue;
-      var isFail = groupData[i] == 1;
-      var note = groupData['n' + i] || '';
-      html += '<div class="report-check-item' + (isFail ? ' issue' : '') + '">';
-      html += '<div class="status-dot ' + (isFail ? 'fail' : 'pass') + '"></div>';
-      html += '<div class="item-name">' + escapeHtml(items[i][0]) + '</div>';
-      if (note) html += '<div style="font-size:10px;color:var(--gray)">' + escapeHtml(note) + '</div>';
-      html += '<div class="item-badge ' + (isFail ? 'fail' : 'pass') + '">' + (isFail ? '不合格' : '合格') + '</div>';
-      html += '</div>';
-    }
-    html += '</div>';
-  }
-  
-  if (data.sg && data.sg.length > 0) {
-    html += '<div class="report-section"><h3>🔧 整改建议</h3>';
-    data.sg.forEach(function(sg) {
-      var riskTags = ['低', '中', '高'];
-      var riskClasses = ['low', 'mid', 'high'];
-      html += '<div class="suggestion-card">';
-      html += '<div class="risk-tag ' + riskClasses[sg.r] + '">' + riskTags[sg.r] + '风险</div>';
-      html += '<div class="sg-problem">' + escapeHtml(sg.p) + '</div>';
-      html += '<div class="sg-fix">建议：' + escapeHtml(sg.f) + '</div>';
-      if (sg.pr) html += '<div class="sg-product">推荐产品：' + escapeHtml(sg.pr) + '</div>';
-      html += '</div>';
-    });
-    html += '</div>';
-  }
-  
-  if (data.sv && data.sv.length > 0) {
-    html += '<div class="report-section"><h3>⭐ 已执行增值服务</h3>';
-    html += '<div class="card">';
-    data.sv.forEach(function(idx) {
-      html += '<div style="padding:6px 0;font-size:13px;border-bottom:1px solid var(--border)">✓ ' + SERVICES[idx] + '</div>';
-    });
-    html += '</div></div>';
-  }
-  
-  if (data.st.n) {
-    html += '<div class="report-section"><h3>🏪 服务门店</h3>';
-    html += '<div class="store-info">';
-    if (data.st.n) html += '<div class="si-row"><span class="si-label">门店</span>' + escapeHtml(data.st.n) + '</div>';
-    if (data.st.p) html += '<div class="si-row"><span class="si-label">电话</span>' + escapeHtml(data.st.p) + '</div>';
-    if (data.st.a) html += '<div class="si-row"><span class="si-label">地址</span>' + escapeHtml(data.st.a) + '</div>';
-    if (data.insp.n) html += '<div class="si-row"><span class="si-label">安检员</span>' + escapeHtml(data.insp.n) + '</div>';
+  for (var gk in gf) { var dk = gf[gk], gd = data[gk]; if (!gd) continue; var gr = CHECK_GROUPS[dk], its = gr.items, ha = false; for (var i = 0; i < its.length; i++) { if (gd[i] !== undefined && gd[i] >= 0) { ha = true; break; } } if (!ha) continue;
+    html += '<div class="report-section"><h3>' + gr.icon + ' ' + gr.title + '</h3>';
+    for (var i = 0; i < its.length; i++) { if (gd[i] === undefined || gd[i] < 0) continue; var isFail = gd[i] == 1, note = gd['n' + i] || '';
+      html += '<div class="report-check-item' + (isFail ? ' issue' : '') + '"><div class="status-dot ' + (isFail ? 'fail' : 'pass') + '"></div><div class="item-name">' + esc(its[i][0]) + '</div>';
+      if (note) html += '<div style="font-size:10px;color:var(--gray);margin-left:4px">' + esc(note) + '</div>';
+      html += '<div class="item-badge ' + (isFail ? 'fail' : 'pass') + '">' + (isFail ? '不合格' : '合格') + '</div></div>'; }
+    html += '</div>'; }
+  if (data.sg && data.sg.length > 0) { html += '<div class="report-section"><h3>🔧 整改建议</h3>';
+    data.sg.forEach(function(sg) { var rt = ['低','中','高'], rc = ['low','mid','high'];
+      html += '<div class="suggestion-card"><div class="risk-tag ' + rc[sg.r] + '">' + rt[sg.r] + '风险</div><div class="sg-problem">' + esc(sg.p) + '</div><div class="sg-fix">建议：' + esc(sg.f) + '</div>';
+      if (sg.pr) html += '<div class="sg-product">推荐产品：' + esc(sg.pr) + '</div>'; html += '</div>'; });
+    html += '</div>'; }
+  if (data.sv && data.sv.length > 0) { html += '<div class="report-section"><h3>⭐ 已执行增值服务</h3><div class="card">';
+    data.sv.forEach(function(idx) { html += '<div style="padding:6px 0;font-size:13px;border-bottom:1px solid var(--border)">✓ ' + SERVICES[idx] + '</div>'; });
+    html += '</div></div>'; }
+  if (data.st.n) { html += '<div class="report-section"><h3>🏪 服务门店</h3><div class="store-info">';
+    if (data.st.n) html += '<div class="si-row"><span class="si-label">门店</span>' + esc(data.st.n) + '</div>';
+    if (data.st.p) html += '<div class="si-row"><span class="si-label">电话</span>' + esc(data.st.p) + '</div>';
+    if (data.st.a) html += '<div class="si-row"><span class="si-label">地址</span>' + esc(data.st.a) + '</div>';
+    if (data.insp.n) html += '<div class="si-row"><span class="si-label">安检员</span>' + esc(data.insp.n) + '</div>';
     if (data.insp.d) html += '<div class="si-row"><span class="si-label">日期</span>' + data.insp.d + '</div>';
-    html += '</div></div>';
-  }
-  
+    html += '</div></div>'; }
   html += '<div style="text-align:center;margin-top:20px;padding:16px 0;font-size:11px;color:var(--gray-light)">华帝股份有限公司 | 厨房电器上门安检检测报告</div>';
-  
   document.getElementById('reportContent').innerHTML = html;
 }
 
 function checkUrlHash() {
   var hash = window.location.hash;
   if (hash.indexOf('#data=') === 0) {
-    var compressed = hash.substring(6);
     try {
-      var json = LZString.decompressFromBase64(compressed);
-      var data = JSON.parse(json);
+      var json = LZString.decompressFromBase64(hash.substring(6)), data = JSON.parse(json);
       if (data && data.v) {
         generatedData = data;
         document.getElementById('editMode').style.display = 'none';
@@ -1202,12 +513,9 @@ function checkUrlHash() {
         document.getElementById('btnEditMode').classList.remove('active');
         document.getElementById('btnViewMode').classList.add('active');
         document.getElementById('headerSub').textContent = '厨房电器安检报告';
-        currentMode = 'view';
-        renderReport(data);
+        currentMode = 'view'; renderReport(data);
       }
-    } catch(e) {
-      console.error('Failed to parse report data:', e);
-    }
+    } catch(e) {}
   }
 }
 
@@ -1218,43 +526,28 @@ function switchMode(mode) {
     document.getElementById('resultModal').style.display = 'none';
     document.getElementById('btnEditMode').classList.add('active');
     document.getElementById('btnViewMode').classList.remove('active');
-    document.getElementById('headerSub').textContent = '厨房电器上门安检';
-    currentMode = 'edit';
+    document.getElementById('headerSub').textContent = '厨房电器上门安检'; currentMode = 'edit';
   } else {
-    if (!generatedData) {
-      showToast('请先生成报告后再预览');
-      return;
-    }
+    if (!generatedData) { showToast('请先生成报告后再预览'); return; }
     document.getElementById('editMode').style.display = 'none';
     document.getElementById('viewMode').style.display = 'block';
     document.getElementById('resultModal').style.display = 'none';
     document.getElementById('btnEditMode').classList.remove('active');
     document.getElementById('btnViewMode').classList.add('active');
-    document.getElementById('headerSub').textContent = '检测报告预览';
-    currentMode = 'view';
-    renderReport(generatedData);
+    document.getElementById('headerSub').textContent = '检测报告预览'; currentMode = 'view'; renderReport(generatedData);
   }
   window.scrollTo(0, 0);
 }
 
-function escapeHtml(s) {
-  if (!s) return '';
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+function esc(s) { return s ? s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;') : ''; }
 
 function showToast(msg) {
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
   setTimeout(function() { t.classList.remove('show'); }, 2000);
 }
 
 window.addEventListener('DOMContentLoaded', init);
-window.addEventListener('hashchange', function() {
-  if (currentMode === 'view' || document.getElementById('viewMode').style.display !== 'none') {
-    checkUrlHash();
-  }
-});
+window.addEventListener('hashchange', function() { if (currentMode === 'view' || document.getElementById('viewMode').style.display !== 'none') checkUrlHash(); });
 </script>
 </body>
 </html>
