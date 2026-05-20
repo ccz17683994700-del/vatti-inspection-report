@@ -199,12 +199,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Helvetica Neue'
   <div class="modal-box" style="position:relative;z-index:201">
     <div style="font-size:48px">✅</div>
     <div style="font-size:16px;font-weight:700;margin:8px 0">检测报告已生成</div>
-    <div style="font-size:12px;color:var(--gray)">复制以下链接发送给消费者</div>
-    <div class="url-box" id="reportUrl"></div>
-    <button class="btn btn-primary" onclick="copyUrl()" style="margin-top:10px">📋 复制链接</button>
-    <button class="btn btn-outline" onclick="previewR()" style="margin-top:6px">👁️ 预览报告</button>
-    <button class="btn btn-outline" onclick="submitToFeishu()" style="margin-top:6px;background:#E8F5E9;border-color:#2E7D32;color:#2E7D32">📊 上报飞书</button>
-    <button class="btn btn-outline" onclick="backEdit()" style="margin-top:6px">↩ 返回修改</button>
+    <div style="font-size:12px;color:var(--gray);margin-bottom:4px" id="resultMsg">数据已自动上报飞书</div>
+    <div id="feishuStatus" style="font-size:11px;color:var(--gray-light);margin-bottom:8px"></div>
+    <button class="btn btn-primary" onclick="shareToWechat()" style="margin-top:8px;font-size:15px;padding:12px 24px">📤 发送给消费者</button>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn btn-outline btn-sm" onclick="previewR()" style="flex:1">👁️ 预览</button>
+      <button class="btn btn-outline btn-sm" onclick="copyUrl()" style="flex:1">📋 复制链接</button>
+      <button class="btn btn-outline btn-sm" onclick="backEdit()" style="flex:1">↩ 返回</button>
+    </div>
   </div>
 </div>
 
@@ -457,49 +459,76 @@ function gen() {
   gUrl = window.location.href.split('#')[0].split('?')[0] + '#data=' + compressed;
   document.getElementById('editMode').classList.add('hidden');
   document.getElementById('resultModal').classList.remove('hidden');
-  document.getElementById('reportUrl').textContent = gUrl;
+  document.getElementById('resultMsg').textContent = '正在上报飞书…';
+  document.getElementById('feishuStatus').textContent = '';
   document.getElementById('headerSub').textContent = '报告已生成';
   saveHistory(d, gUrl);
+  // 自动上报飞书
+  autoUploadFeishu(d);
 }
 
 function copyUrl() {
-  if (navigator.clipboard) { navigator.clipboard.writeText(gUrl).then(function(){ toast('✅ 链接已复制，可发给消费者'); }); }
+  if (navigator.clipboard) { navigator.clipboard.writeText(gUrl).then(function(){ toast('✅ 链接已复制'); }); }
   else { var ta=document.createElement('textarea');ta.value=gUrl;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('✅ 已复制'); }
 }
 
-// ===== 飞书上报告 =====
-var FEISHU_PROXY_URL = 'https://vatti-inspect.vercel.app/api/feishu-report'; // Vercel 部署后替换
+// ===== 飞书自动上报 =====
+var FEISHU_PROXY_URL = 'https://pocket-receptors-passenger-powerseller.trycloudflare.com/api/feishu-report';
 
-function submitToFeishu() {
-  if (!gData) { toast('⚠️ 请先生成报告'); return; }
-  var btn = event.target; btn.disabled = true; btn.textContent = '⏳ 上报告中...';
+function autoUploadFeishu(d) {
+  var payload = JSON.parse(JSON.stringify(d));
+  payload._url = gUrl;
   
-  // 附加报告链接到数据
-  var payload = JSON.parse(JSON.stringify(gData));
-  payload._url = gUrl || '';
-
   fetch(FEISHU_PROXY_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   }).then(function(r) { return r.json(); })
   .then(function(res) {
-    btn.disabled = false;
     if (res.ok) {
-      toast('✅ 已上报飞书多维表格');
-      btn.textContent = '✅ 已上报飞书'; btn.style.background = '#C8E6C9';
-      // 保存上报状态到 localStorage
+      document.getElementById('resultMsg').textContent = '✅ 数据已同步飞书';
+      document.getElementById('feishuStatus').textContent = '记录ID: ' + (res.record_id || '').substring(0,12) + '...';
+      // 保存上报状态到 history
       var hist = []; try { hist = JSON.parse(localStorage.getItem(HIST_KEY) || '[]'); } catch(e) {}
       if (hist.length > 0) { hist[0].feishu = res.record_id; hist[0].feishu_link = res.link; localStorage.setItem(HIST_KEY, JSON.stringify(hist)); }
     } else {
-      toast('❌ 上报失败: ' + (res.msg || '未知错误'));
-      btn.textContent = '📊 重试上报飞书'; btn.style.background = '#FFEBEE';
+      document.getElementById('resultMsg').textContent = '⚠️ 飞书同步失败，数据已保存在本机';
+      document.getElementById('feishuStatus').textContent = res.msg || '';
     }
   }).catch(function(e) {
-    btn.disabled = false;
-    toast('❌ 网络错误，请检查网络后重试');
-    btn.textContent = '📊 重试上报飞书'; btn.style.background = '#FFEBEE';
+    document.getElementById('resultMsg').textContent = '⚠️ 飞书暂不可用，数据已保存在本机';
+    document.getElementById('feishuStatus').textContent = '';
   });
+}
+
+// ===== 微信一键分享 =====
+function shareToWechat() {
+  if (!gUrl) { toast('⚠️ 请先生成报告'); return; }
+  
+  var title = '华帝厨房健康诊断报告';
+  var desc = '尊敬的' + (gData.c.n || gData.c.cm || '业主') + '，这是您的厨房健康诊断报告';
+  
+  // 方式1: Web Share API (微信浏览器支持)
+  if (navigator.share) {
+    navigator.share({ title: title, text: desc, url: gUrl })
+      .then(function() { toast('✅ 已发送'); })
+      .catch(function(e) { /* 用户取消分享，不做处理 */ });
+    return;
+  }
+  
+  // 方式2: WeixinJSBridge (老版本微信)
+  if (typeof WeixinJSBridge !== 'undefined' && WeixinJSBridge.invoke) {
+    WeixinJSBridge.invoke('sendAppMessage', {
+      title: title, desc: desc, link: gUrl,
+      img_url: 'https://ccz17683994700-del.github.io/vatti-inspection-report/favicon.ico',
+      img_width: '64', img_height: '64'
+    }, function() { toast('✅ 已发送'); });
+    return;
+  }
+  
+  // 方式3: 兜底复制
+  copyUrl();
+  toast('📋 链接已复制，请粘贴到微信发送');
 }
 
 function previewR() {
