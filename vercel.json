@@ -1,1 +1,11 @@
-{"functions":{"api/feishu-report.js":{"runtime":"nodejs22.x","maxDuration":10}}}
+{
+  "functions": {
+    "api/feishu-report.js": {
+      "runtime": "nodejs22.x",
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
+    { "source": "/api/feishu-report", "destination": "/api/feishu-report" }
+  ]
+}
